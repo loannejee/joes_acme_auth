@@ -76,10 +76,22 @@
             componentDidMount() {
                 this.attemptTokenLogin();
             }
+
+            // example:
+            // credentials = { username: "lucy", password: "lucy_pw" }
             async signIn(credentials) {
+                // HAVE SERVER AUTHENTICATE CREDENTIALS:
                 let response = await axios.post('/api/auth', credentials);
-                const { token } = response.data;
+                // token is the "id" of the user who signed in
+                // In the case of Lucy, it's 1
                 // const token = response.data.token;
+                const { token } = response.data;
+
+                //LOCAL STORAGE:
+                // We take that token and then put it in the localStorage (local storage will remember key/value pairs in the browser even after refreshing)
+                // cookies(attached to http request) and localStorage(attached to browser) are kind of alternatives to each other 
+                // You can access by: 
+                // inspect > Application > Local Storage
                 window.localStorage.setItem('token', token);
                 this.attemptTokenLogin();
             }

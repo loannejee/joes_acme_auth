@@ -8,3 +8,6 @@ const init = async () => {
 };
 
 init();
+
+// Note:
+// npm run start:dev runs this file which seeds db AND start up the port
