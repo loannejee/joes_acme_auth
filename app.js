@@ -4,6 +4,7 @@ app.use(express.json());
 const { models: { User, Note } } = require('./db');
 const path = require('path');
 
+
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 
 // LOGIN/SIGNIN AUTHENTICATE USER
@@ -19,6 +20,7 @@ app.post('/api/auth', async (req, res, next) => {
 
 app.get('/api/auth', async (req, res, next) => {
     try {
+        console.log("token", req.headers.authorization)
         res.send(await User.byToken(req.headers.authorization));
     }
     catch (ex) {
@@ -39,7 +41,6 @@ app.get('/api/auth/:id/notes', async (req, res, next) => {
         next(e)
     }
 })
-
 
 
 app.use((err, req, res, next) => {

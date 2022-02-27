@@ -11,6 +11,7 @@ const config = {
     logging: false
 };
 
+
 if (process.env.LOGGING) {
     delete config.logging;
 }
@@ -38,6 +39,7 @@ User.hasMany(Note);
 // 4a. Create .env file and create the AUTH_JWT_SECRET
 // 4b. See line 6
 const secretSigningPhrase = process.env.AUTH_JWT_SECRET;
+// console.log("secret", secretSigningPhrase)
 
 
 // 3. CLASS METHODS ==============================================================================
@@ -74,7 +76,7 @@ User.authenticate = async ({ username, password }) => {
             username
         }
     });
-
+        console.log("whats our user?", user)
     if (!user) {
         const error = Error('bad credentials');
         error.status = 401;
@@ -90,7 +92,9 @@ User.authenticate = async ({ username, password }) => {
         // Sign takes a payload which is what we want to serialize
         // We want to serialize the "userId" with the sercret key which is the second parameter that we declared "secretSigningPhrase"
         const newToken = jwt.sign({ userId: user.id }, secretSigningPhrase);
+        console.log("new token", newToken)
         return newToken; // token
+        
     }
     const error = Error('bad credentials');
     error.status = 401;
@@ -112,7 +116,6 @@ const syncAndSeed = async () => {
     const [lucy, moe, larry] = await Promise.all(
         credentials.map(credential => User.create(credential))
     );
-
     const notes = [
         { userId: 1, text: "Lucy is a silly goosey"},
         { userId: 2, text: "Gotta go to Moe's"},
